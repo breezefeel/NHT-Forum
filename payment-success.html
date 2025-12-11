@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결제 완료 - 자연치유관광 포럼</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>자연치유관광 포럼</h1>
+                <p>Natural Healing Tourism Forum</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">홈</a></li>
+                    <li><a href="seminars.html">세미나</a></li>
+                    <li><a href="courses.html">강좌</a></li>
+                    <li><a href="dashboard.html">내 강의실</a></li>
+                    <li><a href="#" onclick="logout()">로그아웃</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="card" style="max-width: 600px; margin: 4rem auto; text-align: center;">
+                <div id="processingMessage">
+                    <div class="spinner"></div>
+                    <h3 style="color: #2d5016; margin-top: 2rem;">결제를 처리하고 있습니다...</h3>
+                    <p style="color: #666;">잠시만 기다려주세요.</p>
+                </div>
+                
+                <div id="successMessage" class="hidden">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+                    <h2 style="color: #2d5016; margin-bottom: 1rem;">결제가 완료되었습니다!</h2>
+                    <p style="color: #666; margin-bottom: 2rem;">
+                        수강 신청이 완료되었습니다.<br>
+                        내 강의실에서 강좌를 시작하실 수 있습니다.
+                    </p>
+                    
+                    <div id="paymentInfo" style="text-align: left; background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                        <!-- 결제 정보가 여기에 표시됩니다 -->
+                    </div>
+                    
+                    <a href="dashboard.html" class="btn" style="margin-right: 1rem;">내 강의실로 가기</a>
+                    <a href="courses.html" class="btn btn-outline">다른 강좌 둘러보기</a>
+                </div>
+                
+                <div id="errorMessage" class="hidden">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">⚠️</div>
+                    <h3 style="color: #721c24; margin-bottom: 1rem;">결제 처리 중 오류가 발생했습니다</h3>
+                    <p id="errorText" style="color: #666; margin-bottom: 2rem;"></p>
+                    <a href="courses.html" class="btn">강좌 목록으로 돌아가기</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 자연치유관광 포럼 (Natural Healing Tourism Forum). All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="https://js.tosspayments.com/v1/payment"></script>
+    <script src="js/payment.js"></script>
+    <script>
+        // URL에서 결제 정보 파싱
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentKey = urlParams.get('paymentKey');
+        const orderId = urlParams.get('orderId');
+        const amount = urlParams.get('amount');
+        
+        if (!paymentKey || !orderId || !amount) {
+            showError('결제 정보가 올바르지 않습니다.');
+        } else {
+            processPaymentConfirmation();
+        }
+        
+        // 결제 승인 처리
+        async function processPaymentConfirmation() {
+            try {
+                const result = await confirmPayment(paymentKey, orderId, parseInt(amount));
+                
+                if (result.success) {
+                    showSuccess(result.data);
+                } else {
+                    showError(result.message || '결제 승인에 실패했습니다.');
+                }
+            } catch (error) {
+                console.error('결제 확인 오류:', error);
+                showError('결제 처리 중 오류가 발생했습니다.');
+            }
+        }
+        
+        // 성공 메시지 표시
+        function showSuccess(paymentData) {
+            document.getElementById('processingMessage').classList.add('hidden');
+            document.getElementById('successMessage').classList.remove('hidden');
+            
+            // 결제 정보 표시
+            const paymentInfo = document.getElementById('paymentInfo');
+            paymentInfo.innerHTML = `
+                <div style="display: grid; gap: 0.8rem;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <strong>주문번호:</strong>
+                        <span>${paymentData.orderId}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <strong>결제금액:</strong>
+                        <span style="font-size: 1.2rem; color: #4a7c2c; font-weight: 700;">
+                            ₩${Number(paymentData.totalAmount).toLocaleString()}
+                        </span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <strong>결제수단:</strong>
+                        <span>${getPaymentMethodName(paymentData.method)}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <strong>결제일시:</strong>
+                        <span>${new Date(paymentData.approvedAt).toLocaleString('ko-KR')}</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // 에러 메시지 표시
+        function showError(message) {
+            document.getElementById('processingMessage').classList.add('hidden');
+            document.getElementById('errorMessage').classList.remove('hidden');
+            document.getElementById('errorText').textContent = message;
+        }
+        
+        // 결제 수단 이름 변환
+        function getPaymentMethodName(method) {
+            const methods = {
+                '카드': '신용카드',
+                'CARD': '신용카드',
+                '계좌이체': '계좌이체',
+                'TRANSFER': '계좌이체',
+                '가상계좌': '가상계좌',
+                'VIRTUAL_ACCOUNT': '가상계좌'
+            };
+            return methods[method] || method;
+        }
+    </script>
+</body>
+</html>

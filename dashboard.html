@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 강의실 - 자연치유관광 포럼</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>자연치유관광 포럼</h1>
+                <p>Natural Healing Tourism Forum</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">홈</a></li>
+                    <li><a href="seminars.html">세미나</a></li>
+                    <li><a href="courses.html">강좌</a></li>
+                    <li><a href="community.html">커뮤니티</a></li>
+                    <li><a href="dashboard.html">내 강의실</a></li>
+                    <li><a href="#" onclick="logout()">로그아웃</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- 사용자 정보 카드 -->
+            <div class="card" style="margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h2 style="color: #2d5016; margin-bottom: 0.5rem;">
+                            <span id="userName">사용자</span>님, 환영합니다! 👋
+                        </h2>
+                        <p style="color: #666; margin-bottom: 0.5rem;">
+                            <strong>이메일:</strong> <span id="userEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="deabadbbac9ebba6bfb3aeb2bbf0bdb1b3">[email&#160;protected]</a></span>
+                        </p>
+                        <p style="color: #666;">
+                            <strong>회원 등급:</strong> <span id="userGrade" class="badge badge-general">일반인</span>
+                        </p>
+                    </div>
+                    <div>
+                        <a href="#" class="btn btn-outline">프로필 수정</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 학습 현황 -->
+            <section class="section">
+                <h2 class="section-title">학습 현황</h2>
+                <div class="card-grid">
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📚</div>
+                        <h3 style="font-size: 2rem; color: #4a7c2c; margin-bottom: 0.5rem;" id="enrolledCourses">0</h3>
+                        <p style="color: #666;">수강 중인 강좌</p>
+                    </div>
+                    
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+                        <h3 style="font-size: 2rem; color: #4a7c2c; margin-bottom: 0.5rem;" id="completedCourses">0</h3>
+                        <p style="color: #666;">수료한 강좌</p>
+                    </div>
+                    
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
+                        <h3 style="font-size: 2rem; color: #4a7c2c; margin-bottom: 0.5rem;" id="attendanceRate">0%</h3>
+                        <p style="color: #666;">평균 출석률</p>
+                    </div>
+                    
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📝</div>
+                        <h3 style="font-size: 2rem; color: #4a7c2c; margin-bottom: 0.5rem;" id="assignmentsSubmitted">0</h3>
+                        <p style="color: #666;">제출한 과제</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 수강 중인 강좌 -->
+            <section class="section">
+                <h2 class="section-title">수강 중인 강좌</h2>
+                <div id="myCourses">
+                    <div class="card">
+                        <p style="text-align: center; color: #999; padding: 2rem;">
+                            아직 수강 중인 강좌가 없습니다.<br>
+                            <a href="courses.html" class="btn" style="margin-top: 1rem;">강좌 둘러보기</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 다가오는 세미나 -->
+            <section class="section">
+                <h2 class="section-title">다가오는 세미나</h2>
+                <div id="upcomingSeminars">
+                    <div class="card">
+                        <p style="text-align: center; color: #999; padding: 2rem;">
+                            예정된 세미나가 없습니다.<br>
+                            <a href="seminars.html" class="btn" style="margin-top: 1rem;">세미나 일정 보기</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 최근 활동 -->
+            <section class="section">
+                <h2 class="section-title">최근 활동</h2>
+                <div class="card">
+                    <div id="recentActivity">
+                        <p style="color: #999; text-align: center; padding: 1rem;">
+                            최근 활동 내역이 없습니다.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 자연치유관광 포럼 (Natural Healing Tourism Forum). All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // 로그인 필수 체크
+        if (!requireLogin()) {
+            // requireLogin이 false를 반환하면 이미 리다이렉트되므로 여기는 실행 안됨
+        } else {
+            // 사용자 정보 표시
+          

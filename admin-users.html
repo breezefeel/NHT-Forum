@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 관리 - 자연치유관광 포럼</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .admin-nav {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        
+        .admin-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .admin-nav a {
+            padding: 0.6rem 1.5rem;
+            background: #f0f4e8;
+            color: #2d5016;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .admin-nav a:hover,
+        .admin-nav a.active {
+            background: #4a7c2c;
+            color: white;
+        }
+        
+        table {
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 768px) {
+            table {
+                font-size: 0.85rem;
+            }
+            
+            th, td {
+                padding: 0.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>자연치유관광 포럼</h1>
+                <p>Natural Healing Tourism Forum - 관리자</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">홈</a></li>
+                    <li><a href="dashboard.html">내 강의실</a></li>
+                    <li><a href="admin.html">관리자</a></li>
+                    <li><a href="#" onclick="logout()">로그아웃</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- 관리자 네비게이션 -->
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="admin.html">📊 대시보드</a></li>
+                    <li><a href="admin-users.html" class="active">👥 회원 관리</a></li>
+                    <li><a href="admin-courses.html">📚 강좌 관리</a></li>
+                    <li><a href="admin-seminars.html">🎓 세미나 관리</a></li>
+                    <li><a href="admin-enrollments.html">📝 수강 현황</a></li>
+                </ul>
+            </nav>
+
+            <h2 class="section-title">👥 회원 관리</h2>
+            
+            <div class="alert alert-info" style="margin-bottom: 2rem;">
+                <strong>💡 안내</strong><br>
+                회원 등급을 변경하면 강좌 및 세미나 접근 권한이 자동으로 조정됩니다.
+            </div>
+
+            <!-- 회원 목록 -->
+            <div class="card">
+                <div style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="color: #2d5016; margin: 0;">전체 회원 목록</h3>
+                    <div>
+                        <input type="text" id="searchInput" placeholder="이름 또는 이메일 검색" 
+                               style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px; width: 250px;">
+                    </div>
+                </div>
+                
+                <div id="userList" style="overflow-x: auto;">
+                    <p style="text-align: center; color: #999; padding: 2rem;">
+                        회원 목록을 불러오는 중...
+                    </p>
+                </div>
+            </div>
+
+            <!-- 등급별 통계 -->
+            <section class="section">
+                <h3 style="color: #2d5016; margin-bottom: 1.5rem;">📊 등급별 통계</h3>
+                <div class="card-grid">
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">👤</div>
+                        <div style="font-size: 2rem; font-weight: 700; color: #4a7c2c;">-</div>
+                        <div style="color: #666;">일반인</div>
+                    </div>
+                    
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">👥</div>
+                        <div style="font-size: 2rem; font-weight: 700; color: #4a7c2c;">-</div>
+                        <div style="color: #666;">포럼 회원</div>
+                    </div>
+                    
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">⭐</div>
+                        <div style="font-size: 2rem; font-weight: 700; color: #4a7c2c;">-</div>
+                        <div style="color: #666;">전문위원</div>
+                    </div>
+                    
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">👑</div>
+                        <div style="font-size: 2rem; font-weight: 700; color: #4a7c2c;">-</div>
+                        <div style="color: #666;">운영진</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 자연치유관광 포럼 (Natural Healing Tourism Forum). All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        // 검색 기능
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#userList tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

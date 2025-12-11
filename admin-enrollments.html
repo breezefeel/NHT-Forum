@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수강 현황 - 자연치유관광 포럼</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .admin-nav {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        
+        .admin-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .admin-nav a {
+            padding: 0.6rem 1.5rem;
+            background: #f0f4e8;
+            color: #2d5016;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .admin-nav a:hover,
+        .admin-nav a.active {
+            background: #4a7c2c;
+            color: white;
+        }
+        
+        table {
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 768px) {
+            table {
+                font-size: 0.85rem;
+            }
+            
+            th, td {
+                padding: 0.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>자연치유관광 포럼</h1>
+                <p>Natural Healing Tourism Forum - 관리자</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">홈</a></li>
+                    <li><a href="dashboard.html">내 강의실</a></li>
+                    <li><a href="admin.html">관리자</a></li>
+                    <li><a href="#" onclick="logout()">로그아웃</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- 관리자 네비게이션 -->
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="admin.html">📊 대시보드</a></li>
+                    <li><a href="admin-users.html">👥 회원 관리</a></li>
+                    <li><a href="admin-courses.html">📚 강좌 관리</a></li>
+                    <li><a href="admin-seminars.html">🎓 세미나 관리</a></li>
+                    <li><a href="admin-enrollments.html" class="active">📝 수강 현황</a></li>
+                </ul>
+            </nav>
+
+            <h2 class="section-title">📝 수강 현황</h2>
+
+            <!-- 수강 목록 -->
+            <div class="card">
+                <div style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                    <h3 style="color: #2d5016; margin: 0;">전체 수강 내역</h3>
+                    <div style="display: flex; gap: 1rem;">
+                        <select id="statusFilter" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;">
+                            <option value="all">전체</option>
+                            <option value="in_progress">진행중</option>
+                            <option value="completed">수료</option>
+                        </select>
+                        <input type="text" id="searchInput" placeholder="회원 또는 강좌 검색" 
+                               style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px; width: 200px;">
+                    </div>
+                </div>
+                
+                <div id="enrollmentList" style="overflow-x: auto;">
+                    <p style="text-align: center; color: #999; padding: 2rem;">
+                        수강 현황을 불러오는 중...
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 자연치유관광 포럼 (Natural Healing Tourism Forum). All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        // 검색 및 필터 기능
+        document.getElementById('searchInput').addEventListener('input', filterEnrollments);
+        document.getElementById('statusFilter').addEventListener('change', filterEnrollments);
+        
+        function filterEnrollments() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const status = document.getElementById('statusFilter').value;
+            const rows = document.querySelectorAll('#enrollmentList tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const rowStatus = row.querySelector('.badge').textContent.includes('수료') ? 'completed' : 'in_progress';
+                
+                const matchesSearch = text.includes(searchTerm);
+                const matchesStatus = status === 'all' || rowStatus === status;
+                
+                row.style.display = (matchesSearch && matchesStatus) ? '' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>

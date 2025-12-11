@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>강좌 - 자연치유관광 포럼</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        #courseList {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            padding: 0.6rem 1.5rem;
+            border: 2px solid #4a7c2c;
+            background: white;
+            color: #4a7c2c;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover {
+            background: #f0f4e8;
+        }
+        
+        .filter-btn.active {
+            background: #4a7c2c;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            #courseList {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>자연치유관광 포럼</h1>
+                <p>Natural Healing Tourism Forum</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">홈</a></li>
+                    <li><a href="seminars.html">세미나</a></li>
+                    <li><a href="courses.html">강좌</a></li>
+                    <li><a href="login.html">로그인</a></li>
+                    <li><a href="register.html">회원가입</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="hero" style="padding: 3rem 2rem;">
+                <h2>전문가 양성 강좌</h2>
+                <p>체계적인 커리큘럼으로 통합 웰니스 전문가로 성장하세요</p>
+            </section>
+
+            <!-- 안내 메시지 -->
+            <div class="alert alert-info" style="margin-bottom: 2rem;">
+                <strong>💡 안내사항</strong>
+                <ul style="margin: 0.5rem 0 0 1.5rem; line-height: 1.8;">
+                    <li>각 강좌는 체계적인 커리큘럼으로 구성되어 있습니다.</li>
+                    <li>녹화 영상 강의와 실시간 세미나가 결합된 형태로 진행됩니다.</li>
+                    <li>출석률 80% 이상, 과제 제출 100% 시 수료증이 발급됩니다.</li>
+                    <li>일부 강좌는 회원 등급에 따라 수강이 제한될 수 있습니다.</li>
+                </ul>
+            </div>
+
+            <!-- 카테고리 필터 -->
+            <div style="background: white; padding: 2rem; border-radius: 10px; margin-bottom: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.08);">
+                <h3 style="color: #2d5016; margin-bottom: 1rem; text-align: center;">🔍 카테고리별 보기</h3>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" onclick="loadCourses('all')">전체</button>
+                    <button class="filter-btn" onclick="loadCourses('통합의학')">🏥 통합의학</button>
+                    <button class="filter-btn" onclick="loadCourses('웰니스관광')">✈️ 웰니스관광</button>
+                    <button class="filter-btn" onclick="loadCourses('자연치유')">🌿 자연치유</button>
+                    <button class="filter-btn" onclick="loadCourses('마음챙김')">🧘 마음챙김</button>
+                    <button class="filter-btn" onclick="loadCourses('영양관리')">🥗 영양관리</button>
+                </div>
+            </div>
+
+            <!-- 강좌 목록 -->
+            <section class="section">
+                <h2 class="section-title">강좌 목록</h2>
+                <div id="courseList">
+                    <!-- 강좌 카드들이 여기에 동적으로 추가됩니다 -->
+                    <div class="card">
+                        <p style="text-align: center; color: #999; padding: 2rem;">
+                            강좌 목록을 불러오는 중...
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 수료증 안내 -->
+            <section class="section">
+                <div class="card" style="background: linear-gradient(135deg, #f0f4e8 0%, #e8f0dc 100%);">
+                    <h3 style="color: #2d5016; margin-bottom: 1rem;">🎓 수료 및 인증</h3>
+                    <div style="display: grid; gap: 1rem; color: #555; line-height: 1.8;">
+                        <div>
+                            <strong>수료 기준:</strong> 출석률 80% 이상 + 과제 제출 100%
+                        </div>
+                        <div>
+                            <strong>수료증 발급:</strong> 온라인 수료증 즉시 발급 (PDF 다운로드 가능)
+                        </div>
+                        <div>
+                            <strong>활용:</strong> 자연치유관광 포럼 인증 전문가로 활동 가능
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <a href="register.html" class="btn">지금 가입하고 학습 시작하기</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 자연치유관광 포럼 (Natural Healing Tourism Forum). All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/course.js"></script>
+    <script>
+        // 필터 버튼 활성화 상태 관리
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

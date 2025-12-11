@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결제 - 자연치유관광 포럼</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>자연치유관광 포럼</h1>
+                <p>Natural Healing Tourism Forum</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">홈</a></li>
+                    <li><a href="seminars.html">세미나</a></li>
+                    <li><a href="courses.html">강좌</a></li>
+                    <li><a href="dashboard.html">내 강의실</a></li>
+                    <li><a href="#" onclick="logout()">로그아웃</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="form-container" style="max-width: 600px;">
+                <h2 style="text-align: center; color: #2d5016; margin-bottom: 2rem;">강좌 결제</h2>
+                
+                <div class="alert alert-info" style="margin-bottom: 2rem;">
+                    <strong>💡 안내</strong><br>
+                    현재 결제 시스템은 준비 중입니다. 4단계에서 토스페이먼츠 또는 카카오페이 연동을 진행할 예정입니다.
+                </div>
+                
+                <!-- 결제 정보 -->
+                <div class="card" style="margin-bottom: 2rem;">
+                    <h3 style="color: #2d5016; margin-bottom: 1rem;">주문 정보</h3>
+                    <div id="orderInfo" style="display: grid; gap: 0.8rem; color: #666;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <strong>강좌명:</strong>
+                            <span id="courseName">-</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <strong>수강료:</strong>
+                            <span id="coursePrice" style="font-size: 1.2rem; color: #4a7c2c; font-weight: 700;">-</span>
+                        </div>
+                        <div style="padding-top: 1rem; border-top: 2px solid #2d5016; display: flex; justify-content: space-between;">
+                            <strong style="font-size: 1.1rem;">결제 금액:</strong>
+                            <span id="totalPrice" style="font-size: 1.3rem; color: #2d5016; font-weight: 700;">-</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 결제 방법 선택 -->
+                <div class="card" style="margin-bottom: 2rem;">
+                    <h3 style="color: #2d5016; margin-bottom: 1rem;">결제 방법</h3>
+                    <div style="display: grid; gap: 1rem;">
+                        <label style="display: flex; align-items: center; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer;">
+                            <input type="radio" name="payment" value="card" checked style="margin-right: 1rem;">
+                            <div>
+                                <strong>신용카드</strong>
+                                <div style="font-size: 0.9rem; color: #666;">모든 카드사 지원</div>
+                            </div>
+                        </label>
+                        
+                        <label style="display: flex; align-items: center; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer;">
+                            <input type="radio" name="payment" value="kakaopay" style="margin-right: 1rem;">
+                            <div>
+                                <strong>카카오페이</strong>
+                                <div style="font-size: 0.9rem; color: #666;">간편 결제</div>
+                            </div>
+                        </label>
+                        
+                        <label style="display: flex; align-items: center; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer;">
+                            <input type="radio" name="payment" value="transfer" style="margin-right: 1rem;">
+                            <div>
+                                <strong>계좌이체</strong>
+                                <div style="font-size: 0.9rem; color: #666;">실시간 계좌이체</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- 약관 동의 -->
+                <div style="margin: 1.5rem 0; padding: 1rem; background: #f8f9fa; border-radius: 5px;">
+                    <label style="display: flex; align-items: start; cursor: pointer;">
+                        <input type="checkbox" id="agreeTerms" required style="margin-top: 0.2rem; margin-right: 0.5rem;">
+                        <span style="font-size: 0.9rem; color: #555;">
+                            결제 진행에 동의하며, 환불 정책을 확인하였습니다. (필수)
+                        </span>
+                    </label>
+                </div>
+                
+                <button onclick="processPayment()" class="btn" style="width: 100%; font-size: 1.1rem;">
+                    결제하기
+                </button>
+                
+                <div style="text-align: center; margin-top: 1rem;">
+                    <a href="courses.html" style="color: #666; text-decoration: none;">취소</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 자연치유관광 포럼 (Natural Healing Tourism Forum). All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // 로그인 체크
+        if (!requireLogin()) {
+            // 이미 리다이렉트됨
+        }
+        
+        // URL 파라미터에서 강좌 정보 가져오기
+        const urlParams = new URLSearchParams(window.location.search);
+        const courseId = urlParams.get('course_id');
+        const amount = urlParams.get('amount');
+        
+        if (!courseId || !amount) {
+            alert('잘못된 접근입니다.');
+            window.location.href = 'courses.html';
+        }
+        
+        // 주문 정보 표시 (실제로는 API에서 강좌 정보를 가져와야 함)
+        document.getElementById('courseName').textContent = '강좌명 로딩 중...';
+        document.getElementById('coursePrice').textContent = '₩' + Number(amount).toLocaleString();
+        document.getElementById('totalPrice').textContent = '₩' + Number(amount).toLocaleString();
+        
+        // 결제 처리 (4단계에서 실제 결제 API 연동 예정)
+        function processPayment() {
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+            
+            if (!agreeTerms) {
+                alert('약관에 동의해주세요.');
+                return;
+            }
+            
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+            
+            alert('결제 시스템은 4단계에서 구현 예정입니다.\n\n현재는 데모 모드로, 수강 신청만 진행됩니다.');
+            
+            // 임시: 무료 수강 신청으로 처리
+            enrollCourseAfterPayment(courseId);
+        }
+        
+        // 결제 완료 후 수강 신청
+        async function enrollCourseAfterPayment(courseId) {
+            const user = checkLogin();
+            
+            showLoading(true);
+            
+            try {
+                await fetch(CONFIG.APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'enrollCourse',
+                        user_email: user.email,
+                        course_id: courseId,
+                        payment_status: 'completed',
+                        payment_amount: amount
+                    })
+                });
+                
+                showLoading(false);
+                alert('결제가 완료되었습니다!\n수강 신청이 완료되었습니다.');
+                window.location.href = 'dashboard.html';
+                
+            } catch (error) {
+                showLoading(false);
+                console.error('수강 신청 오류:', error);
+                alert('오류가 발생했습니다.');
+            }
+        }
+    </script>
+</body>
+</html>

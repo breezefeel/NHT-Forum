@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>강좌 상세 - 자연치유관광 포럼</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @media (max-width: 768px) {
+            .card > div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>자연치유관광 포럼</h1>
+                <p>Natural Healing Tourism Forum</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">홈</a></li>
+                    <li><a href="seminars.html">세미나</a></li>
+                    <li><a href="courses.html">강좌</a></li>
+                    <li><a href="login.html">로그인</a></li>
+                    <li><a href="register.html">회원가입</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- 뒤로 가기 -->
+            <div style="margin-bottom: 1rem;">
+                <a href="courses.html" style="color: #4a7c2c; text-decoration: none; font-weight: 600;">
+                    ← 강좌 목록으로 돌아가기
+                </a>
+            </div>
+
+            <!-- 강좌 상세 정보 -->
+            <div id="courseDetail">
+                <div class="card">
+                    <p style="text-align: center; color: #999; padding: 2rem;">
+                        강좌 정보를 불러오는 중...
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 자연치유관광 포럼 (Natural Healing Tourism Forum). All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/course.js"></script>
+</body>
+</html>
